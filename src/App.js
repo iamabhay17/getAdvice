@@ -1,25 +1,40 @@
-import logo from './logo.svg';
-import './App.css';
+import axios from 'axios';
+import React,{useState} from 'react'
+import './App.css'
 
-function App() {
+const App = () => {
+
+  const [advice, setAdvice] = useState("Click on arrow icon to generate Advice");
+
+  const getAdvice =()=>
+  {
+    axios.get("https://api.adviceslip.com/advice")
+    .then((response)=>
+    {
+      setAdvice(response.data.slip.advice);
+    })
+    .catch((error)=>
+    {
+      setAdvice("Sorry,Can't display advice")
+    })
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <div className='app-father'>
+    <div className='app'>
+
+      <div className='icon'>
+         <ion-icon name="bookmarks"></ion-icon>
+      </div>
+
+      <h2>{advice}</h2>
+
+      <div className='icon'>
+         <ion-icon name="arrow-forward-circle" onClick={getAdvice}></ion-icon>
+      </div>
+      </div>
+      </div>
+  )
 }
 
-export default App;
+export default App
